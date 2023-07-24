@@ -11,7 +11,7 @@ const el = {
 };
 let gallery = new SimpleLightbox('.gallery a');
 gallery.on('show.simplelightbox', function () {
-	// do something…
+  // do something…
 });
 let pageLoad = 1;
 async function getRequest(search, page) {
@@ -81,7 +81,7 @@ async function inputSearch(e) {
     const fetchHits = getFetch.data.hits;
     const result = getMarkap(fetchHits);
     el.divGaleri.insertAdjacentHTML('beforeend', result);
-    gallery.refresh()
+    gallery.refresh();
     el.btnLoadmore.hidden = false;
 
     if (getFetch.data.total === 0) {
@@ -89,6 +89,14 @@ async function inputSearch(e) {
         'Sorry, there are no images matching your search query. Please try again.'
       );
       el.btnLoadmore.hidden = true;
+    } else if (
+      getFetch.data.hits.length * pageLoad >=
+      getFetch.data.totalHits
+    ) {
+      el.btnLoadmore.hidden = true;
+      Notiflix.Notify.info(
+        "We're sorry, but you've reached the end of search results."
+      );
     } else {
       Notiflix.Notify.success(
         `Hooray! We found ${getFetch.data.totalHits} images.`
@@ -104,8 +112,9 @@ el.btnLoadmore.addEventListener('click', loadMore);
 async function loadMore(e) {
   e.preventDefault();
   pageLoad += 1;
+
   const getFetch = await getRequest(search, pageLoad);
-  if (pageLoad > getFetch.data.totalHits / 40) {
+  if (getFetch.data.hits.length * pageLoad >= getFetch.data.totalHits) {
     el.btnLoadmore.hidden = true;
     Notiflix.Notify.info(
       "We're sorry, but you've reached the end of search results."
@@ -114,6 +123,6 @@ async function loadMore(e) {
   const fetchHits = getFetch.data.hits;
   const result = getMarkap(fetchHits);
   el.divGaleri.insertAdjacentHTML('beforeend', result);
-  gallery.refresh()
+  gallery.refresh();
   return;
 }
