@@ -1,2 +1,38 @@
 @import './common';
-@import './example';
+
+.photo-card img {
+  width: 200px;
+  display: block;
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+.photo-card {
+  width: auto;
+  height: 340px;
+  padding: 5px;
+  border: 1 solid #000;
+}
+
+.btn-search {
+
+  background: rgba(11, 99, 246, 1);
+  color: #fff;
+ 
+  transition: 0.5s;
+}
+
+.btn-search:hover {
+  transform: translate(0, -3px);
+  box-shadow: 0 5px 10px 0 rgba(11, 99, 246, 1);
+}
+.search-form{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+   justify-content: center;
+   gap: 20px;
+}
